@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import CSVBox from './csvbox';
 import './App.css';
+import { useEffect, useState } from 'react';
+import CsvToJSONConverter from './CSVtoJSON';
 
 function App() {
+  const [uploaded, setUploaded] = useState(false);
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    console.log(data);
+    console.log(uploaded);
+  }, [data, uploaded]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {!uploaded ? (
+        <CSVBox
+          setUploaded={() => setUploaded(true)}
+          updateData={(dataRaw) => setData(dataRaw)}
+        />
+      ) : (
+        <CsvToJSONConverter fileURL={data} />
+      )}
     </div>
   );
 }
